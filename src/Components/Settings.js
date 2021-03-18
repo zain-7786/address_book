@@ -11,7 +11,7 @@ export default function Settings() {
             </Col>
             
             <Col span={12} pull={1}>
-                <SearchBar />
+                {/* <SearchBar /> */}
             </Col>
         </Row>
     )

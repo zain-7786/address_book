@@ -1,3 +1,4 @@
+
 import React, {useState, useEffect} from 'react';
 import InfoCard from './InfoCard';
 import { Row, Col, Space,Spin } from 'antd';
@@ -9,6 +10,7 @@ import { Link } from 'react-router-dom'
 function AddressList(){
     const [page, setPage] = useState(1);
     const [users, setUsers] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const [show, setShow] = useState(false);
 
@@ -19,6 +21,7 @@ function AddressList(){
             setUsers((prev) => [...prev, ...newUsers]);
             setLoading(false);
         }
+
 
         loadUsers();
     }, [page]);
