@@ -4,8 +4,7 @@ import axios from 'axios';
 const url = 'https://randomuser.me/api/';
 
 export const getAllUsersData = (setUsers, pageNo, setIsLoading, users) => {
-    debugger;
-    axios.get(`${url}?page=${pageNo}&results=1000`)
+    axios.get(`${url}?page=${pageNo}&results=100`)
     .then((response) => {
         const {status, data} = response;
         if(status === 200)

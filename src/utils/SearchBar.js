@@ -1,27 +1,29 @@
 import React, {useState, useEffect} from 'react';
-//import 'antd/dist/antd.css';
 import { Row,Input } from 'antd';
 import AddressList from '../Components/AddressList';
+import InfoCard from '../Components/InfoCard';
 
 function SearchBar() {
-    const [search, setSearch] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [users, setUsers] = useState([]);
-    const { Search } = Input;
-    const onSearch = value => console.log(value);
+    const handleChange = e => {
+        setSearchTerm(e.target.value);
+      };
 
     useEffect(() => {
-        setFilteredUsers(
-            users.filter((user) => user.name.first.toLowerCase().includes(search.toLowerCase())
-            )
-        );
-        debugger;
-    }, [search, users]);
+        const results = users.filter(item =>
+            item.name.first.toLowerCase().includes(searchTerm)
+          );
+          setFilteredUsers(results);
+          debugger;
+    }, [searchTerm]);
     return (
         <Row className="search-bar__main">
-            <Search placeholder="Search Users" onSearch={onSearch} enterButton size="large" onChange={(e) => setSearch(e.target.value)}/>
-            {filteredUsers.map((user, idx) => (
-                <AddressList key={idx} {...user} />
+            <Input placeholder="Search Users" enterButton size="large" value={searchTerm} onChange={handleChange}/>
+            {filteredUsers.map(item => (
+                
+                <InfoCard src={item.picture.thumbnail} title={item.name.first+" "+item.name.last} />
             ))}
 
         </Row>

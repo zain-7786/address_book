@@ -31,7 +31,7 @@ function AddressList() {
 
     return (
         <div onScroll={LoadMore}>
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} justify="space-around">
+        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} justify="space-between" align="middle">
             {isLoading ? <h1>Loading...</h1> : ""}
             {users && users.map((user) => (
                 <Link onClick={() => { setShow(true); }}><InfoCard src={user.picture.thumbnail} title={user.name.first+" "+user.name.last} /></Link>
