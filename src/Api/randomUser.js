@@ -3,15 +3,15 @@ import axios from 'axios';
 
 const url = 'https://randomuser.me/api/';
 
-export const getAllUsersData = (setUsers, pageNo, setIsLoading, users) => {
+export const getAllUsersData = async (setUsers, pageNo, setIsLoading, users) => {
     axios.get(`${url}?page=${pageNo}&results=100`)
     .then((response) => {
         const {status, data} = response;
         if(status === 200)
         {
-            //setIsLoading(true);
             setUsers(data.results);
-            //debugger;
+            setIsLoading(false);
+            debugger;
             if(pageNo > 1){
                 let resultArr = [...users, ...data.results]
                 setUsers(resultArr);

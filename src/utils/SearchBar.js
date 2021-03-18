@@ -16,11 +16,10 @@ function SearchBar() {
             item.name.first.toLowerCase().includes(searchTerm)
           );
           setFilteredUsers(results);
-          debugger;
     }, [searchTerm]);
     return (
         <Row className="search-bar__main">
-            <Input placeholder="Search Users" enterButton size="large" value={searchTerm} onChange={handleChange}/>
+            <Input placeholder="Search Users" enterButton size="large" value={searchTerm} onChange={(e) => handleChange(e)}/>
             {filteredUsers.map(item => (
                 
                 <InfoCard src={item.picture.thumbnail} title={item.name.first+" "+item.name.last} />
