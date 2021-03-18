@@ -15,6 +15,7 @@ function SearchBar() {
             users.filter((user) => user.name.first.toLowerCase().includes(search.toLowerCase())
             )
         );
+        debugger;
     }, [search, users]);
     return (
         <Row className="search-bar__main">

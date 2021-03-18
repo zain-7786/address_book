@@ -6,8 +6,9 @@ function InfoCard({src, title, description}) {
     return (
         <Card
             hoverable
-            style={{ width: 200 }}
+            style={{ width: 300 }}
             cover={<img alt="example" src={src} />}
+            justify="space-around"
         >
             <Meta title={title} description={description} />
         </Card>
