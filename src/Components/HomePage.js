@@ -1,17 +1,18 @@
 import React from 'react'
 import SearchBar from '../utils/SearchBar';
 import { Row, Col } from 'antd';
+//import InfiniteScrolling from '../utils/InfiniteScrolling';
 import AddressList from './AddressList';
+import { Layout } from 'antd';
 
 export function HomePage() {
-    return (
-        <>
-        <Row align="middle" justify="center">
-            <Col md={6}><h1>Address Book</h1></Col>
-            
-            <Col><SearchBar /></Col>
-        </Row>
-        <AddressList />
-        </>
+    const { Content } = Layout;
+    return (  
+        <Content>  
+            <Row align="middle" justify="center">  
+                <Col><SearchBar /></Col>
+            </Row>
+            <AddressList />
+        </Content>
     )
 }

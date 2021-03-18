@@ -1,18 +1,24 @@
-
 import React, {useState, useEffect} from 'react';
-import InfoCard from './InfoCard';
+import InfoCard from '../Components/InfoCard';
 import { Row, Col, Space,Spin } from 'antd';
 import {getAllUsersData} from '../Api/randomUser';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import DetailModal from './DetailModal';
+import DetailModal from '../Components/DetailModal';
 import { Link } from 'react-router-dom'
 
-function AddressList(){
+function InfiniteScrolling(){
     const [page, setPage] = useState(1);
     const [users, setUsers] = useState([]);
-
     const [loading, setLoading] = useState(true);
     const [show, setShow] = useState(false);
+
+    const handleScroll = e => {
+        const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
+        
+        if(scrollHeight - scrollTop === clientHeight) {
+            setPage(prev => prev + 1);
+        }
+    }
 
     useEffect(() => {
         const loadUsers = async () => {
@@ -21,7 +27,6 @@ function AddressList(){
             setUsers((prev) => [...prev, ...newUsers]);
             setLoading(false);
         }
-
 
         loadUsers();
     }, [page]);
@@ -48,4 +53,4 @@ function AddressList(){
     );
 }
 
-export default AddressList;
+export default InfiniteScrolling;
