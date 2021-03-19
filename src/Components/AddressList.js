@@ -1,57 +1,51 @@
-import React, {useState, useEffect} from 'react'
-import { Row, Spin, Alert } from 'antd';
-import { getAllUsersData} from '../Api/randomUser';
-import DetailModal from './DetailModal'; 
-import {Link} from 'react-router-dom';
-import InfoCard from './InfoCard';
 
-function AddressList() {
-    //const style = { background: '#0092ff', padding: '8px 0' };
-    const [show, setShow] = useState(false);
+import React, {useState, useEffect} from 'react';
+import InfoCard from './InfoCard';
+import { Row, Col, Space,Spin } from 'antd';
+import {getAllUsersData} from '../Api/randomUser';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import DetailModal from './DetailModal';
+import { Link } from 'react-router-dom'
+
+function AddressList(){
+    const [page, setPage] = useState(1);
     const [users, setUsers] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [pageNo, setPage] = useState(1);
+
+    const [loading, setLoading] = useState(true);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
-        //setIsLoading(true);
-        getAllUsersData(setUsers, pageNo);
-        //setIsLoading(false);
-    }, []);
-
-    function LoadMore(e) {
-        console.log(e);
-        let bottom = e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight < 20;
-        if(bottom){
-            let page_ = pageNo + 1;
-            setPage(page_)
-            getAllUsersData(setUsers, page_);
-            setIsLoading(true);
+        const loadUsers = async () => {
+            setLoading(true);
+            const newUsers = await getAllUsersData(page);
+            setUsers((prev) => [...prev, ...newUsers]);
+            setLoading(false);
         }
+
+
+        loadUsers();
+    }, [page]);
+
+    const loadUsers = async () => {
+        setLoading(true);
+        const newUsers = await getAllUsersData(page);
+        setUsers((prev) => [...prev, ...newUsers]);
+        setLoading(false);
+    }
+    const handleModalOpen = () => {
+        setShow(true);
     }
 
-    return (
-        <div onScroll={LoadMore}>
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} justify="space-between" align="middle">
-            {isLoading ? <h1>Loading...</h1> : ""}
-            {users && users.map((user) => (
-                <Link onClick={() => { setShow(true); }}><InfoCard src={user.picture.thumbnail} title={user.name.first+" "+user.name.last} /></Link>
-            // <Col className="gutter-row" span={6}>
-            //     <Link onClick={() => { setShow(true); }} style={style}>{user.name.first}</Link>
-            // </Col>
-            ))}
-
-            {/* <Spin tip="Loading..." />
-            <Alert
-            message="Alert message title"
-            description="Further details about the context of this alert."
-            type="info"
-            /> */}
-           
+    return(
+        <>
+            <InfiniteScroll dataLength={users.length} next={loadUsers} hasMore={true} loader={<Row justify="center"><Spin tip="Loading..." /></Row>}>
+                <Space size={[8,16]} wrap>
+                    {users && users.map(user => <Link onClick={handleModalOpen}><InfoCard src={user.picture.thumbnail} title={user.name.first+" "+user.name.last} /></Link>)}
+                </Space>
+            </InfiniteScroll>
             <DetailModal show={show} handleOk={()=> setShow(false)} handleCancel={()=> setShow(false)}/>
-        </Row>
-        </div>
-
-    )
+        </>
+    );
 }
 
-export default AddressList
+export default AddressList;
