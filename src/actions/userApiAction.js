@@ -1,5 +1,5 @@
-export const allUserData = setUsers => async dispatch => {
-    const { status, data, apiErrors } = await get('https://randomuser.me/api/');
+export const allUserData = async (setData,page) => dispatch => {
+    const { status, data, apiErrors } = await get(`https://randomuser.me/api/?page=${page}&results=10`);
   
     if (status && status === 200) {
       setUsers(data.results);
